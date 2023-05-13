@@ -18,11 +18,11 @@ $router->get('/', function () use ($router) {
 });
 
 
-$router->get('/users',['uses' => 'UserController@index']);              //get all users
-$router->post('/users',['uses' => 'UserController@add']);               //add  users
-$router->get('/users/{id}',['uses' => 'UserController@show']);          //get users by id
-$router->put('/users/{id}',['uses' => 'UserController@update']);        //update user records
-$router->patch('/users/{id}',['uses' => 'UserController@update']);      //get all users
-$router->delete('/users/{id}',['uses' => 'UserController@delete']);     //delete user record
+$router->get('/users',['uses' => 'UserController@index']);                    //get all users
+$router->post('/users',['uses' => 'UserController@add']);                     //add  users
+$router->get('/users/{id}',['uses' => 'UserController@show']);                //get users by id
+$router->put('/update/users/{id}',['uses' => 'UserController@updateUser']);   //UPDATE users by id
+$router->patch('/users/{id}',['uses' => 'UserController@update']);            //get all users
+$router->delete('/users/{id}',['uses' => 'UserController@deleteUser']);           //delete user record
 
 

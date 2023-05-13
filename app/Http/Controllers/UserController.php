@@ -35,6 +35,7 @@ Class UserController extends Controller {
         return $this -> successReponse($users);
     }
     
+    // ADD FUNCTION
     public function add(Request $request){
         
         $rules = [
@@ -50,14 +51,55 @@ Class UserController extends Controller {
     }
 
     public function show($id){
-        $users = User::where('userId', $id)->first();
-        if ($users){
-            return $this -> successReponse($users);
-        }
-        {
-            return $this-> errorResponse('User Does Not Exist', Response::HTTP_NOT_FOUND);
-        }
+
+        $users = User::findOrFail($id);
+        return $this -> successReponse($users);
+
+
+        // $users = User::where('userId', $id)->first();
+        // if ($users){
+        //     return $this -> successReponse($users);
+        // }
+        // {
+        //     return $this-> errorResponse('User Does Not Exist', Response::HTTP_NOT_FOUND);
+        // }
         
+    }
+
+     // UPDATE FUNCTION
+     public function updateUser(Request $request, $id)
+     {
+        $rules = [
+            'username' => 'required|max:50',
+            'password' => 'required|max:50',
+            'gender' => 'required|in:Male,Female',
+        ];
+
+        $this->validate($request,$rules);
+         $users = User::where('userId', $id)->firstOrFail();
+         $users->fill($request->all());
+         
+        //  IF NO CHANGE HAPPENED
+         if ($users->isClean()){
+            return $this->errorResponse('At least one value must change', Response::HTTP_UNPROCESSABLE_ENTITY);
+         }
+         $users->save();
+         return $users;
+     } 
+    //  DELETE FUNCTION
+     public function deleteUser($id) {
+        $users = User::findOrFail($id);
+        $users->delete();
+        return $this -> successReponse($users);
+
+        // $users = User::where('userId', $id)->delete();
+
+        // if($users){
+        //     return $this -> successReponse($users);
+        // }
+        // else{
+        //     return $this->errorResponse('User ID Does Not Exists', Response::HTTP_NOT_FOUND);
+        // }
     }
     
 }
